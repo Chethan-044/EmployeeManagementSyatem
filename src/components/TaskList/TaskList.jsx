@@ -1,21 +1,67 @@
 import React from 'react'
 
-const TaskList = () => {
+const TaskList = ({ user }) => {
+
   return (
-    <div id='tasklist' className='h-[55%] overflow-x-auto flex items-center gap-5 flex-nowrap justify-items-start py-5 w-full mt-5'>
-        
-        <div className='flex-shrink-0 h-full w-[300px] bg-red-300 rounded-lg shadow-md'>
+    <div
+      id='tasklist'
+      className='h-[55%] overflow-x-auto flex gap-5 flex-nowrap py-5 w-full mt-5'
+    >
+
+      {user?.tasks?.map((task, i) => {
+
+        const statusColor =
+          task.completed ? "bg-green-400"
+          : task.failed ? "bg-gray-500"
+          : task.active ? "bg-blue-400"
+          : "bg-yellow-400"
+
+        const statusText =
+          task.completed ? "Completed"
+          : task.failed ? "Failed"
+          : task.active ? "Active"
+          : "New"
+
+        return (
+          <div
+            key={i}
+            className={`flex-shrink-0 h-full w-[300px] ${statusColor} rounded-lg shadow-md`}
+          >
+
+            {/* Header */}
             <div className='flex justify-between items-center px-3 py-2'>
-                <h4 className='bg-red-500 w-[65px] ml-2 text-center mt-2 rounded-xl' >High</h4>
-            <h4 className='text-sm text-white'>20 feb 2026</h4>
+              <h4 className='bg-black text-white px-3 py-1 rounded-xl text-xs'>
+                {task.category}
+              </h4>
+
+              <h4 className='text-sm text-white'>
+                {task.taskDate}
+              </h4>
             </div>
-            <h2 className='text-2xl mt-7 font-semibold  px-3'>Make a utube video 1</h2>
-            <p className='mt-1 p-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, molestiae.</p>
-        </div>
-      
-       
+
+            {/* Title */}
+            <h2 className='text-2xl mt-6 font-semibold px-3'>
+              {task.taskTitle}
+            </h2>
+
+            {/* Description */}
+            <p className='mt-2 px-3 text-sm'>
+              {task.taskDescription}
+            </p>
+
+            {/* Status */}
+            <div className='px-3 mt-4'>
+              <span className='text-xs bg-black text-white px-3 py-1 rounded'>
+                {statusText}
+              </span>
+            </div>
+
+          </div>
+        )
+      })}
+
     </div>
-  ) 
+  )
 }
 
 export default TaskList
